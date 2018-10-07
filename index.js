@@ -1,30 +1,31 @@
-(function(){
-    class Loop{
-        private running: boolean = false;
-        private callback: Function;
-        private onstart: Function = () => {};
-        private onstop: Function = () => {};
-
-        private framerate: number;
-
-        isRunning(){
+"use strict";
+(function () {
+    class Loop {
+        constructor(fn, fps) {
+            this.running = false;
+            this.onstart = () => { };
+            this.onstop = () => { };
+            this.callback = fn;
+            this.framerate = 1000 / fps;
+            this.start();
+        }
+        isRunning() {
             return this.running;
         }
-        setFps(fps: number){
+        setFps(fps) {
             this.framerate = 1000 / fps;
         }
-        getFps(): number{
+        getFps() {
             return 1000 / this.framerate;
         }
-        setFramerate(framerate: number){
+        setFramerate(framerate) {
             this.framerate = framerate;
         }
-        getFramerate(): number{
+        getFramerate() {
             return this.framerate;
         }
-
-        on(event: string, fn: Function){
-            switch(event){
+        on(event, fn) {
+            switch (event) {
                 case "start":
                     this.onstart = fn;
                     break;
@@ -36,40 +37,33 @@
                     break;
             }
         }
-
-        private run(self: Loop){
+        run(self) {
             self.callback();
             self.check(self);
         }
-        private check(self: Loop){
-            if(self.running) setTimeout(self.run, self.framerate, self);
+        check(self) {
+            if (self.running)
+                setTimeout(self.run, self.framerate, self);
         }
-        start(){
-            if(!this.running){
+        start() {
+            if (!this.running) {
                 this.running = true;
                 this.run(this);
             }
             this.onstart();
         }
-        stop(){
+        stop() {
             this.running = false;
             this.onstop();
         }
-
-        constructor(fn: Function, fps: number){
-            this.callback = fn;
-            this.framerate = 1000 / fps;
-            this.start();
-        }
-    };
-
-    if(typeof window == 'object'){
+    }
+    ;
+    if (typeof window == 'object') {
         //@ts-ignore
         window.Loop = Loop;
-
     }
     //@ts-ignore
-    else if(typeof module == 'object'){
+    else if (typeof module == 'object') {
         //@ts-ignore
         module.exports = Loop;
     }
