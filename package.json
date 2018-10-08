@@ -1,6 +1,6 @@
 {
   "name": "jsloop",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "An alternative to setInterval method",
   "main": "index.js",
   "scripts": {

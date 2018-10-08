@@ -45,11 +45,11 @@
             if(self.running) setTimeout(self.run, self.framerate, self);
         }
         start(){
+            this.onstart();
             if(!this.running){
                 this.running = true;
                 this.run(this);
             }
-            this.onstart();
         }
         stop(){
             this.running = false;
